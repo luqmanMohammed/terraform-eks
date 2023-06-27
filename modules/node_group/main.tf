@@ -7,7 +7,8 @@ data "aws_eks_cluster" "cluster" {
 }
 
 data "aws_ssm_parameter" "eks_ami_release_version" {
-  name = "/aws/service/eks/optimized-ami/${data.aws_eks_cluster.cluster.version}/${var.os}/recommended/release_version"
+  for_each = local.node_groups_map
+  name     = "/aws/service/eks/optimized-ami/${data.aws_eks_cluster.cluster.version}/${each.value.os}/recommended/release_version"
 }
 
 resource "aws_eks_node_group" "this" {
@@ -16,7 +17,7 @@ resource "aws_eks_node_group" "this" {
   version         = data.aws_eks_cluster.cluster.version
   node_group_name = each.key
   subnet_ids      = each.value.subnet_ids
-  release_version = nonsensitive(data.aws_ssm_parameter.eks_ami_release_version.value)
+  release_version = nonsensitive(data.aws_ssm_parameter.eks_ami_release_version[each.key].value)
   scaling_config {
     desired_size = each.value.scaling_config.desired_size
     min_size     = each.value.scaling_config.min_size
@@ -26,7 +27,7 @@ resource "aws_eks_node_group" "this" {
   capacity_type = each.value.capacity_type
   node_role_arn = each.value.role_arn
   update_config {
-    max_unavailable = 1
+    max_unavailable_percentage = 50
   }
 
   lifecycle {

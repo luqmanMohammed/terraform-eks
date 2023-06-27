@@ -17,4 +17,14 @@ resource "aws_eks_cluster" "this" {
     public_access_cidrs     = local.public_access_cidrs
   }
   enabled_cluster_log_types = local.enabled_cluster_log_types
+
+  dynamic "encryption_config" {
+    for_each = var.encryption_kms_key_arn == "" ? [] : [var.encryption_kms_key_arn]
+    content {
+      provider {
+        key_arn = encryption_config.value
+      }
+      resources = ["secrets"]
+    }
+  }
 }

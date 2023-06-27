@@ -14,6 +14,10 @@ output "cluster_endpoint" {
   value = aws_eks_cluster.this.endpoint
 }
 
+output "cluster_ca" {
+  value = aws_eks_cluster.this.certificate_authority
+}
+
 output "iam_openid_connect_provider_url" {
   value = aws_iam_openid_connect_provider.cluster_oidc_provider[0].url
 }

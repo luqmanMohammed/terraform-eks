@@ -57,3 +57,8 @@ variable "enable_logging" {
     scheduler         = false
   }
 }
+
+variable "encryption_kms_key_arn" {
+  type    = string
+  default = ""
+}
