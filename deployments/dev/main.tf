@@ -26,5 +26,16 @@ module "deployment" {
     max_instance_count     = 3
     min_instance_count     = 1
   }]
-  role_definitions = {}
+  
+  role_definitions = {
+    "${var.deployment_name}-argo-cd-service-role": {
+      service_account_names = [
+        "argocd:argocd"
+      ]
+      policy_arns = [
+        "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+        "arn:aws:iam::aws:policy/ReadOnlyAccess"
+      ]
+    }
+  }
 }

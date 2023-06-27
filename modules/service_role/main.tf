@@ -7,7 +7,7 @@ data "aws_iam_policy_document" "this" {
     condition {
       test     = "StringEquals"
       variable = "${replace(var.iam_openid_connect_url, "https://", "")}:sub"
-      values   = each.value.service_account_names
+      values   = [ for sa_name in each.value.service_account_names: "system:serviceaccount:${sa_name}" ]
     }
 
     principals {
