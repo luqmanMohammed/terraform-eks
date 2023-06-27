@@ -26,7 +26,7 @@ module "deployment" {
     max_instance_count     = 3
     min_instance_count     = 1
   }]
-\
+
   role_definitions = {
     "${var.deployment_name}-argo-cd-service-role": {
       service_account_names = [
