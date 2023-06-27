@@ -35,7 +35,7 @@ variable "whitelist_public_cidrs" {
   default = []
 }
 
-variable "role_definitions" {
+variable "service_role_definitions" {
   type = map(object({
     service_account_names = set(string)
     policy_arns           = set(string)
