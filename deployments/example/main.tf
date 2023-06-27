@@ -28,7 +28,7 @@ module "deployment" {
   }]
 
   service_role_definitions = {
-    "${var.deployment_name}-argo-cd-service-role": {
+    "${var.deployment_name}-argo-cd-service-role" : {
       service_account_names = [
         "argocd:argocd"
       ]
