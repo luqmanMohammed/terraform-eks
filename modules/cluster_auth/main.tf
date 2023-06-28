@@ -4,7 +4,7 @@ data "aws_eks_cluster" "cluster" {
 
 data "kubernetes_config_map" "aws_auth_cm" {
   metadata {
-    name = "aws-auth"
+    name      = "aws-auth"
     namespace = "kube-system"
   }
 }
@@ -25,12 +25,12 @@ import {
 
 resource "kubernetes_config_map" "aws_auth_cm" {
   metadata {
-    name = "aws-auth"
+    name      = "aws-auth"
     namespace = "kube-system"
   }
 
   data = {
-    mapRoles = yamlencode(local.combined_mapRoles)
+    mapRoles  = yamlencode(local.combined_mapRoles)
     mapUseres = yamlencode(local.mapUsers)
   }
 }

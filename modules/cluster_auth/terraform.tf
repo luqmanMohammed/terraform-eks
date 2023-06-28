@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    aws = {}
+    aws        = {}
     kubernetes = {}
   }
   required_version = "~> 1.5"

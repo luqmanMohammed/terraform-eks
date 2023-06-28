@@ -1,7 +1,8 @@
 terraform {
   required_providers {
-    aws  = {}
-    http = {}
-    tls  = {}
+    aws        = {}
+    http       = {}
+    tls        = {}
+    kubernetes = {}
   }
 }
