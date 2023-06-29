@@ -70,13 +70,13 @@ variable "enable_secret_encryption" {
 }
 
 variable "secret_encryption_kms_key_arn" {
-  type     = string
-  optional = true
+  type    = string
+  default = ""
 }
 
 variable "control_plane_security_groups" {
-  type     = list(string)
-  optional = true
+  type    = list(string)
+  default = []
 }
 
 variable "kubernetes_version" {

@@ -11,9 +11,8 @@ variable "cluster_name" {
 }
 
 module "cluster" {
-  source       = "../../modules/cluster"
-  cluster_name = var.cluster_name
-
+  source                              = "../../modules/cluster"
+  cluster_name                        = var.cluster_name
   node_group_subnet_name_selectors    = ["*private*"]
   control_plane_subnet_name_selectors = ["*private*"]
   enable_secret_encryption            = true
