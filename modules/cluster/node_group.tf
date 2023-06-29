@@ -18,8 +18,9 @@ locals {
 }
 
 module "node_group" {
-  depends_on   = [module.iam_roles]
-  source       = "../node_group"
-  cluster_name = var.cluster_name
-  node_groups  = local.node_groups
+  depends_on         = [module.iam_roles, module.eks]
+  source             = "../node_group"
+  cluster_name       = var.cluster_name
+  node_groups        = local.node_groups
+  kubernetes_version = var.kubernetes_version
 }

@@ -11,7 +11,7 @@ variable "cluster_name" {
 }
 
 module "cluster" {
-  source                              = "../../modules/cluster"
+  source                              = "../modules/cluster"
   cluster_name                        = var.cluster_name
   node_group_subnet_name_selectors    = ["*private*"]
   control_plane_subnet_name_selectors = ["*private*"]
@@ -39,5 +39,11 @@ module "cluster" {
       capacity_type          = "SPOT"
     },
   ]
+}
 
+
+provider "kubernetes" {
+  host                   = module.cluster.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.cluster.cluster_ca.0.data)
+  token                  = module.cluster.cluster_auth_token
 }

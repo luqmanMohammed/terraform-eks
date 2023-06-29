@@ -25,3 +25,8 @@ output "iam_openid_connect_provider_url" {
 output "iam_openid_connect_provider_arn" {
   value = aws_iam_openid_connect_provider.cluster_oidc_provider[0].arn
 }
+
+output "cluster_auth_token" {
+  sensitive = true
+  value     = data.aws_eks_cluster_auth.this.token
+}
