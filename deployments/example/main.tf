@@ -22,25 +22,21 @@ module "cluster" {
   vpc_id                              = var.vpc_id
   node_groups = [
     {
-      name      = "t2-medium-group"
-      disk_size = 20
-      scaling_config = {
-        desired_size = 2
-        max_size     = 3
-        min_size     = 0
-      }
-      instance_type = "t2.medium"
+      name                   = "t2-medium-group"
+      disk_size              = 20
+      desired_instance_count = 2
+      max_instance_count     = 3
+      min_instance_count     = 0
+      instance_type          = "t2.medium"
     },
     {
-      name      = "t2-medium-spot-group"
-      disk_size = 20
-      scaling_config = {
-        desired_size = 2
-        max_size     = 3
-        min_size     = 0
-      }
-      instance_type = "t2.medium"
-      capacity_type = "SPOT"
+      name                   = "t2-medium-spot-group"
+      disk_size              = 20
+      desired_instance_count = 2
+      max_instance_count     = 3
+      min_instance_count     = 0
+      instance_type          = "t2.medium"
+      capacity_type          = "SPOT"
     },
   ]
 
