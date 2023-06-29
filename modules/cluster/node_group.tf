@@ -4,7 +4,7 @@ locals {
       name           = "${var.deployment_name}-${ng_.name}"
       instance_types = [ng_.instance_type]
       role_arn       = module.iam_roles.node_group_role_arn
-      capacity_type  = "ON_DEMAND"
+      capacity_type  = ng_.capacity_type
       subnet_ids     = data.aws_subnets.node_group_subnets.ids
       disk_size      = ng_.disk_size
       scaling_config = {
@@ -12,23 +12,14 @@ locals {
         min_size     = ng_.min_instance_count
         max_size     = ng_.max_instance_count
       }
+      max_unavailable_percentage = ng_.max_unavailable_percentage
     }
   ]
 }
 
-data "aws_subnets" "node_group_subnets" {
-  filter {
-    name   = "vpc-id"
-    values = [var.vpc_id]
-  }
-  tags = {
-    "Name" : "*${var.node_group_subnet_type}*"
-  }
-}
-
 module "node_group" {
-  depends_on   = [module.eks, module.iam_roles]
+  depends_on   = [module.iam]
   source       = "../node_group"
-  cluster_name = var.deployment_name
+  cluster_name = var.cluster_name
   node_groups  = local.node_groups
 }

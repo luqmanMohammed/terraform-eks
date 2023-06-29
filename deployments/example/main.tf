@@ -6,36 +6,43 @@ variable "vpc_id" {
   type = string
 }
 
-variable "deployment_name" {
+variable "cluster_name" {
   type = string
 }
 
-module "deployment" {
-  source = "../../modules/deployment"
+module "cluster" {
+  source       = "../../modules/cluster"
+  cluster_name = var.cluster_name
 
-  deployment_name = var.deployment_name
+  node_group_subnet_name_selectors    = ["*private*"]
+  control_plane_subnet_name_selectors = ["*private*"]
+  enable_secret_encryption            = true
+  whitelist_caller_public_ip          = true
+  enable_serviceroles                 = true
+  log_group_retention_period          = 7
+  vpc_id                              = var.vpc_id
+  node_groups = [
+    {
+      name      = "t2-medium-group"
+      disk_size = 20
+      scaling_config = {
+        desired_size = 2
+        max_size     = 3
+        min_size     = 0
+      }
+      instance_type = "t2.medium"
+    },
+    {
+      name      = "t2-medium-spot-group"
+      disk_size = 20
+      scaling_config = {
+        desired_size = 2
+        max_size     = 3
+        min_size     = 0
+      }
+      instance_type = "t2.medium"
+      capacity_type = "SPOT"
+    },
+  ]
 
-  vpc_id                    = var.vpc_id
-  control_plane_subnet_type = "private"
-  node_group_subnet_type    = "private"
-  node_groups = [{
-    name                   = "t2-medium-group"
-    instance_type          = "t2.medium"
-    disk_size              = 30
-    desired_instance_count = 2
-    max_instance_count     = 3
-    min_instance_count     = 1
-  }]
-
-  service_role_definitions = {
-    "${var.deployment_name}-argo-cd-service-role" : {
-      service_account_names = [
-        "argocd:argocd"
-      ]
-      policy_arns = [
-        "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-        "arn:aws:iam::aws:policy/ReadOnlyAccess"
-      ]
-    }
-  }
 }

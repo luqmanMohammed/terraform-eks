@@ -1,7 +1,7 @@
 
 locals {
   public_access_cidrs       = var.enable_public_access ? var.public_access_cidrs : []
-  enabled_cluster_log_types = [for k, v in tomap(var.enable_logging) : k if v]
+  enabled_cluster_log_types = [for k, v in tomap(var.logging_config) : k if v]
 }
 
 resource "aws_eks_cluster" "this" {

@@ -8,10 +8,11 @@ variable "node_groups" {
       max_size     = number
       min_size     = number
     })
-    capacity_type  = optional(string, "ON_DEMAND")
-    disk_size      = optional(number, 30)
-    instance_types = optional(list(string), ["t2.medium"])
-    os             = optional(string, "amazon-linux-2")
+    capacity_type              = optional(string, "ON_DEMAND")
+    disk_size                  = optional(number, 30)
+    instance_types             = optional(list(string), ["t2.medium"])
+    os                         = optional(string, "amazon-linux-2")
+    max_unavailable_percentage = optional(number, 50)
   }))
 }
 

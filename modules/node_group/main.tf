@@ -27,7 +27,7 @@ resource "aws_eks_node_group" "this" {
   capacity_type = each.value.capacity_type
   node_role_arn = each.value.role_arn
   update_config {
-    max_unavailable_percentage = 50
+    max_unavailable_percentage = each.value.max_unavailable_percentage
   }
 
   lifecycle {

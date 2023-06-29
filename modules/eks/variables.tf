@@ -40,7 +40,7 @@ variable "log_group_retention_period" {
   default = 0
 }
 
-variable "enable_logging" {
+variable "logging_config" {
   type = object({
     api               = bool
     audit             = bool
